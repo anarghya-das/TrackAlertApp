@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import com.cunoraz.gifview.library.GifView;
+
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,29 +16,31 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class PostRequest extends AsyncTask<String, Void, Void> {
+public class PostRequest extends AsyncTask<String, Void, String> {
     private BackEnd backEnd;
     private String value;
     private MediaPlayer mediaPlayer;
-    private GifImageView gif;
+    private GifView gifView;
     private TextView textView;
     private boolean pause;
     private boolean danger;
+    AsyncResponse response;
     private ThreadControl threadControl;
 
-    PostRequest(String s, MediaPlayer mp, GifImageView gif, boolean pause, TextView textView, ThreadControl threadControl) {
+    PostRequest(String s, MediaPlayer mp, GifView gifView, boolean pause, TextView textView, ThreadControl threadControl,AsyncResponse response) {
         backEnd = new BackEnd();
         value = s;
         mediaPlayer = mp;
-        this.gif = gif;
+        this.gifView = gifView;
         this.pause = pause;
         danger = false;
         this.textView = textView;
         this.threadControl = threadControl;
+        this.response=response;
     }
 
     @Override
-    protected Void doInBackground(String... strings) {
+    protected String doInBackground(String... strings) {
         try {
             boolean t = true;
             while (t) {
@@ -47,7 +51,9 @@ public class PostRequest extends AsyncTask<String, Void, Void> {
                 }
                 String res = post(strings[0], "asd");
                 ArrayList<Train> trains = backEnd.jsonGov(res);
-                if (trains.size() != 0) {
+                if (trains==null){
+                    throw new Exception();
+                }else if (trains.size() != 0) {
                     ArrayList<String> trackNames = backEnd.trackNames(trains);
                     Log.d("sound", trackNames.toString());
                     boolean result = checkTrack(value, trackNames);
@@ -71,19 +77,26 @@ public class PostRequest extends AsyncTask<String, Void, Void> {
                 t = false;
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
+        return "normal";
     }
 
     @Override
-    protected void onPostExecute(Void aVoid) {
-        if (danger) {
-            gif.setVisibility(View.VISIBLE);
-            textView.setText("TRAIN INCOMING!");
-        } else {
-            gif.setVisibility(View.INVISIBLE);
-            textView.setText("No Train enroute on this Track");
+    protected void onPostExecute(String result) {
+        if (result==null){
+            response.processFinish("null");
+        }else {
+            response.processFinish("good");
+            if (danger) {
+                gifView.setVisibility(View.VISIBLE);
+                gifView.play();
+                textView.setText("TRAIN INCOMING!");
+            } else {
+                gifView.setVisibility(View.INVISIBLE);
+                gifView.pause();
+                textView.setText("No Train enroute on this Track");
+            }
         }
     }
 
