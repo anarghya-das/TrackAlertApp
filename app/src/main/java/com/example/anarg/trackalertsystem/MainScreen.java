@@ -14,16 +14,27 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+/**
+ This class controls the welcome screen of the app.
+ @author Anarghya Das
+ */
 public class MainScreen extends AppCompatActivity {
+    //Stores the track name as user input
     private TextInputEditText textInputEditText;
-
+    /**
+     * The first function which runs after the activity has started
+     * Initializes the the instance variables declared above
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
         textInputEditText=findViewById(R.id.text);
     }
-
+    /**
+     * Checks if the user is connected to Wifi or mobile data or not
+     * @return true is connected and false otherwise
+     */
     private boolean connectivityCheck(){
         boolean result=false;
         ConnectivityManager connectivitymanager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -42,7 +53,9 @@ public class MainScreen extends AppCompatActivity {
         }
         return result;
     }
-
+    /**
+     * OnClick listener for start button which starts the Main Activity of the app
+     */
     public void start(View view) {
         if (!textInputEditText.getText().toString().isEmpty()&&connectivityCheck()){
             Intent i= new Intent(this,MainActivity.class);
@@ -57,6 +70,9 @@ public class MainScreen extends AppCompatActivity {
             exceptionRaised("Connectivity Error","Enable mobile data or WiFi to use this app.");
         }
     }
+    /**
+     * Method which creates a custom dialog box to show if the program encountered an error
+     */
     public void exceptionRaised(String title,String body) {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setMessage(body)

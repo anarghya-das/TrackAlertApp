@@ -8,8 +8,17 @@ import com.eclipsesource.json.JsonValue;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Backend class for this project which contains helpful functions required for the app to function properly.
+ * @author Anarghya Das
+ */
 public class BackEnd {
-
+    /**
+     * Takes the response String from the server and parses the json data to create an Arraylist of
+     * trains each with their specific data.
+     * @param s json string from the server
+     * @return ArrayList of trains
+     */
     public ArrayList<Train> jsonGov(String s){
         try {
             ArrayList<Train> allInformation = new ArrayList<>();
@@ -73,7 +82,11 @@ public class BackEnd {
             return null;
         }
     }
-
+    /**
+     * Sets the signal color of a signal based on the color code received from the server
+     * @param a ArrayList of codes
+     * @return color value for corresponding code
+     */
     private String signalColor(ArrayList<String> a) {
         String s="Yellow";
         for (String channelDescription: a) {
@@ -87,7 +100,11 @@ public class BackEnd {
         }
         return  s;
     }
-
+    /**
+     * Returns the array list of track names for the particular array list of trains
+     * @param t array list of trains
+     * @return array list of track names
+     */
     public ArrayList<String> trackNames(ArrayList<Train> t){
         ArrayList<String> track=new ArrayList<>();
         for (Train to: t){

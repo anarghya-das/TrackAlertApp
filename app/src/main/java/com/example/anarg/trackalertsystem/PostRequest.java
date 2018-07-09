@@ -16,6 +16,11 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+/**
+ * This Async Task class is related to the Main Activity class which handles the network request
+ * and updates the UI based on the response.
+ * @author Anarghya Das
+ */
 public class PostRequest extends AsyncTask<String, Void, String> {
     private BackEnd backEnd;
     private String value;
@@ -26,7 +31,16 @@ public class PostRequest extends AsyncTask<String, Void, String> {
     private boolean danger;
     AsyncResponse response;
     private ThreadControl threadControl;
-
+    /**
+     * Constructor which initialises most of the instance variables
+     * @param s Stores the track name
+     * @param mp Stores the siren sound mp3
+     * @param gifView Stores the siren gif image
+     * @param pause stores pause value of the sound
+     * @param textView stores the text on the main screen
+     * @param threadControl stores the reference to thread control class
+     * @param response stores the reference for async response interface
+     */
     PostRequest(String s, MediaPlayer mp, GifView gifView, boolean pause, TextView textView, ThreadControl threadControl,AsyncResponse response) {
         backEnd = new BackEnd();
         value = s;
@@ -38,7 +52,11 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         this.threadControl = threadControl;
         this.response=response;
     }
-
+    /**
+     * The network connections are done here in background
+     * @param strings urls of the severs to be connected
+     * @return response from the server
+     */
     @Override
     protected String doInBackground(String... strings) {
         try {
@@ -81,7 +99,10 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         }
         return "normal";
     }
-
+    /**
+     * Updates the UI based on the server response
+     * @param result server response
+     */
     @Override
     protected void onPostExecute(String result) {
         if (result==null){
@@ -99,7 +120,12 @@ public class PostRequest extends AsyncTask<String, Void, String> {
             }
         }
     }
-
+    /**
+     * Helper method which checks if the particular track name is in the array list of trains
+     * @param s track name
+     * @param trains array list of trains
+     * @return true if track name is in the array list else false
+     */
     private boolean checkTrack(String s, ArrayList<String> trains) {
         for (String t : trains) {
             if (t.equals(s)) {
@@ -108,7 +134,13 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         }
         return false;
     }
-
+    /**
+     * Method to set Up HTTP POST Request
+     * @param u URl
+     * @param json JSON Data to be posted
+     * @return response
+     * @throws IOException throws an exception if not executed properly
+     */
     private String post(String u, String json) throws IOException {
         String response;
         // This is getting the url from the string we passed in
@@ -159,7 +191,11 @@ public class PostRequest extends AsyncTask<String, Void, String> {
 
         return response;
     }
-
+    /**
+     * Converts the input stream object into String
+     * @param is input stream object
+     * @return String
+     */
     private String convertInputStreamToString(java.io.InputStream is) {
         java.util.Scanner s = new java.util.Scanner(is).useDelimiter("\\A");
         return s.hasNext() ? s.next() : "";

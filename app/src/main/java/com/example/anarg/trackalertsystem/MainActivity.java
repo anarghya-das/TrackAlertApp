@@ -19,21 +19,37 @@ import com.cunoraz.gifview.library.GifView;
 
 import java.util.ArrayList;
 
+/**
+ * This class controls the main activity of the app.
+ * @author Anarghya Das
+ */
 public class MainActivity extends AppCompatActivity implements AsyncResponse{
+    //URL for the government server from which the data is fetched
     private static final String govURl = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead";
+    //Stores the reference of the siren sound which plays in the background
     private MediaPlayer mediaPlayer;
+    //Stores the reference of the Post Request Async Task
     private PostRequest govPost;
+    //Stores the track name value entered by the user
     private String value;
+    //Boolean variables which keeps track of media pause/play and connection error
     private boolean pause,error;
+    //Stores the time for which error is shown in milliseconds
     private int errorFrequency;
+    //Stores the gif image of siren gif
     private GifView gifView;
+    //Shows the text displayed on the screen
     private TextView textView;
+    //Stores the audio button for pause/play
     private FloatingActionButton audioButton;
+    //Stores the alert dialog for errors
     private AlertDialog dialog;
-    private ArrayList<PostRequest> allRequests;
+    //Stores the reference for thread control
     private ThreadControl threadControl;
-
-
+    /**
+     * The first function which runs after the activity has started
+     * Initializes the the instance variables declared above
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +62,6 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         pause=false;
         error=false;
         errorFrequency=0;
-        allRequests=new ArrayList<>();
         audioButton= findViewById(R.id.soundButton);
         textView=findViewById(R.id.textView);
         gifView= findViewById(R.id.gif1);
@@ -65,7 +80,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         super.onResume();
         mHandler.post(timerTask);
     }
-
+    /**
+     * This method runs after the async task is complete and executes proper functions based on the
+     * result received.
+     * @param output Stores the result of the async task after completion.
+     */
     @Override
     public void processFinish(String output) {
         if (output.equals("null")) {
@@ -108,12 +127,13 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         Log.d("sound", "onDestroy: ");
         mHandler.removeCallbacks(timerTask);
         mediaPlayer.stop();
-        for (PostRequest p: allRequests){
-            p.cancel(true);
-            threadControl.cancel();
-        }
+        govPost.cancel(true);
+        threadControl.cancel();
     }
-
+    /**
+     * Handler which creates a new async Task every second to fetch the data from the server and do
+     * the relevant job after receiving the data.
+     */
     private Handler mHandler = new Handler();
     private Runnable timerTask = new Runnable() {
         @Override
@@ -121,14 +141,15 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
             if (govPost.getStatus()== AsyncTask.Status.FINISHED) {
                 govPost= new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,MainActivity.this);
                 govPost.execute(govURl);
-                allRequests.add(govPost);
             }
             if (error){
                 errorFrequency++;
             }
             mHandler.postDelayed(timerTask, 1);
         }};
-
+    /**
+     * onClick handler of the mute which stops or starts the media based on user input
+     */
     public void soundChange(View view) {
         if (audioButton.getTag().equals("audio")){
             pause=true;
@@ -140,11 +161,18 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
             audioButton.setImageResource(R.drawable.audio);
         }
     }
-
+    /**
+     * onClick button handler which stops the activity and exits to main menu
+     */
     public void stop(View view) {
         finish();
     }
-
+    /**
+     * Creates a custom dialog box.
+     * @param title The title of the dialog box
+     * @param body Body text of the dialog box
+     * @param buttons If true buttons will appear else not
+     */
     public void exceptionRaised(String title,String body,boolean buttons) {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setMessage(body)
@@ -170,6 +198,5 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         dialog.setCancelable(false);
         dialog.show();
     }
-
 
 }
