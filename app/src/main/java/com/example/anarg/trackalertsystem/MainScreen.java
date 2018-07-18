@@ -29,7 +29,11 @@ public class MainScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_screen);
-        textInputEditText=findViewById(R.id.text);
+        if(connectivityCheck()) {
+            textInputEditText = findViewById(R.id.text);
+        }else{
+            exceptionRaised("Connectivity Error","Enable mobile data or WiFi to use this app.");
+        }
     }
     /**
      * Checks if the user is connected to Wifi or mobile data or not

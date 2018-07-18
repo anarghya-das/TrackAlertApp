@@ -46,12 +46,15 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     private AlertDialog dialog;
     //Stores the reference for thread control
     private ThreadControl threadControl;
+    //Timeout duration of the app after it encounters an error
+    private static final int TIMEOUT_ERROR_TIME=60000;//in milliseconds ~ 60 seconds
     /**
      * The first function which runs after the activity has started
      * Initializes the the instance variables declared above
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d("loadingTime", "loadingStarted ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         AudioManager am = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
@@ -87,6 +90,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
      */
     @Override
     public void processFinish(String output) {
+        if (!isRunning){
+            mHandler.post(timerTask);
+        }
         if (output.equals("null")) {
             if (dialog == null) {
                 if (mediaPlayer.isPlaying()){
@@ -104,10 +110,11 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
                 gifView.setVisibility(View.INVISIBLE);
                 exceptionRaised("Connection Error", "Please wait while we try to reconnect." +
                         "\nIn the mean while check if your internet connection is working.", false);
-            }else if (errorFrequency==60000){
+            }else if (errorFrequency>=TIMEOUT_ERROR_TIME){
                 dialog.dismiss();
                 exceptionRaised("Connection Error", "Could not reconnect." +
                         "\nThere might be some problem, please try again later!", true);
+                errorFrequency=0;
             }
         }else if (dialog!=null&&dialog.isShowing()&&output.equals("good")){
             error=false;
@@ -135,12 +142,14 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
      * the relevant job after receiving the data.
      */
     private Handler mHandler = new Handler();
+    private boolean isRunning=false;
     private Runnable timerTask = new Runnable() {
         @Override
         public void run() {
             if (govPost.getStatus()== AsyncTask.Status.FINISHED) {
                 govPost= new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,MainActivity.this);
                 govPost.execute(govURl);
+                isRunning=true;
             }
             if (error){
                 errorFrequency++;

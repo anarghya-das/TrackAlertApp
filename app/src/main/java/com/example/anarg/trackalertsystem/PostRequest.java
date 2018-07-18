@@ -108,6 +108,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         if (result==null){
             response.processFinish("null");
         }else {
+            Log.d("loadingTime", "loadingDONe ");
             response.processFinish("good");
             if (danger) {
                 gifView.setVisibility(View.VISIBLE);
