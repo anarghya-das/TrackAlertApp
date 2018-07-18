@@ -18,12 +18,12 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    private static final String govURl = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead";
+    private static final String tmsURL = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead";
 
     @Test
     public void BackEndTest() throws JSONException {
         BackEnd b=new BackEnd();
-        ArrayList<Train> t=b.jsonGov(postagain(govURl,"sdsd"));
+        ArrayList<Train> t=b.jsonParse(postagain(tmsURL,"sdsd"));
         System.out.println(t.size());
         int c=0;
         for (Train to: t){

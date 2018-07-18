@@ -24,12 +24,12 @@ import java.util.ArrayList;
  * @author Anarghya Das
  */
 public class MainActivity extends AppCompatActivity implements AsyncResponse{
-    //URL for the government server from which the data is fetched
-    private static final String govURl = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead";
+    //URL for the TMS server from which the data is fetched
+    private static final String tmsURL = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead";
     //Stores the reference of the siren sound which plays in the background
     private MediaPlayer mediaPlayer;
     //Stores the reference of the Post Request Async Task
-    private PostRequest govPost;
+    private PostRequest asyncPost;
     //Stores the track name value entered by the user
     private String value;
     //Boolean variables which keeps track of media pause/play and connection error
@@ -74,8 +74,8 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         mediaPlayer=MediaPlayer.create(this,R.raw.music);
         mediaPlayer.setLooping(true);
         threadControl=new ThreadControl();
-        govPost=new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,this);
-        govPost.execute(govURl);
+        asyncPost=new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,this);
+        asyncPost.execute(tmsURL);
     }
 
     @Override
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         Log.d("sound", "onDestroy: ");
         mHandler.removeCallbacks(timerTask);
         mediaPlayer.stop();
-        govPost.cancel(true);
+        asyncPost.cancel(true);
         threadControl.cancel();
     }
     /**
@@ -146,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     private Runnable timerTask = new Runnable() {
         @Override
         public void run() {
-            if (govPost.getStatus()== AsyncTask.Status.FINISHED) {
-                govPost= new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,MainActivity.this);
-                govPost.execute(govURl);
+            if (asyncPost.getStatus()== AsyncTask.Status.FINISHED) {
+                asyncPost= new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,MainActivity.this);
+                asyncPost.execute(tmsURL);
                 isRunning=true;
             }
             if (error){

@@ -68,7 +68,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
                     break;
                 }
                 String res = post(strings[0], "asd");
-                ArrayList<Train> trains = backEnd.jsonGov(res);
+                ArrayList<Train> trains = backEnd.jsonParse(res);
                 if (trains==null){
                     throw new Exception();
                 }else if (trains.size() != 0) {
