@@ -23,7 +23,7 @@ import java.util.ArrayList;
  */
 public class PostRequest extends AsyncTask<String, Void, String> {
     private BackEnd backEnd;
-    private String value;
+    private ArrayList<String> value;
     private MediaPlayer mediaPlayer;
     private GifView gifView;
     private TextView textView;
@@ -31,6 +31,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
     private boolean danger;
     AsyncResponse response;
     private ThreadControl threadControl;
+    private ArrayList<String> dangerTracks;
     /**
      * Constructor which initialises most of the instance variables
      * @param s Stores the track name
@@ -41,7 +42,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
      * @param threadControl stores the reference to thread control class
      * @param response stores the reference for async response interface
      */
-    PostRequest(String s, MediaPlayer mp, GifView gifView, boolean pause, TextView textView, ThreadControl threadControl,AsyncResponse response) {
+    PostRequest(ArrayList<String> s, MediaPlayer mp, GifView gifView, boolean pause, TextView textView, ThreadControl threadControl,AsyncResponse response) {
         backEnd = new BackEnd();
         value = s;
         mediaPlayer = mp;
@@ -51,6 +52,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
         this.textView = textView;
         this.threadControl = threadControl;
         this.response=response;
+        dangerTracks=new ArrayList<>();
     }
     /**
      * The network connections are done here in background
@@ -73,7 +75,7 @@ public class PostRequest extends AsyncTask<String, Void, String> {
                     throw new Exception();
                 }else if (trains.size() != 0) {
                     ArrayList<String> trackNames = backEnd.trackNames(trains);
-                    Log.d("sound", trackNames.toString());
+                    Log.d("TrackValue", trackNames.toString());
                     boolean result = checkTrack(value, trackNames);
                     if (result) {
                         danger = true;
@@ -113,27 +115,45 @@ public class PostRequest extends AsyncTask<String, Void, String> {
             if (danger) {
                 gifView.setVisibility(View.VISIBLE);
                 gifView.play();
-                textView.setText("TRAIN INCOMING!");
+                if (dangerTracks.size()==1){
+                    textView.setText("TRAIN INCOMING ON TRACK: "+dangerTracks.get(0));
+                }else {
+                    StringBuilder danger= new StringBuilder();
+                    for (int i=0;i<dangerTracks.size();i++){
+                        if (i==dangerTracks.size()-1){
+                            danger.append(dangerTracks.get(i)).append(".");
+                        }else {
+                            danger.append(dangerTracks.get(i)).append(",");
+                        }
+                    }
+                    textView.setText("TRAIN INCOMING ON TRACKS: " + danger);
+                }
             } else {
                 gifView.setVisibility(View.INVISIBLE);
                 gifView.pause();
                 textView.setText("No Train enroute on this Track");
+                dangerTracks.clear();
             }
         }
     }
     /**
-     * Helper method which checks if the particular track name is in the array list of trains
+     * Helper method which checks if the particular track name is in the array list of track Names
      * @param s track name
-     * @param trains array list of trains
+     * @param tracks array list of track Names
      * @return true if track name is in the array list else false
      */
-    private boolean checkTrack(String s, ArrayList<String> trains) {
-        for (String t : trains) {
-            if (t.equals(s)) {
-                return true;
+    private boolean checkTrack(ArrayList<String> s, ArrayList<String> tracks) {
+        boolean finalVal=false;
+        for (int i=0;i<s.size();i++) {
+            String track=s.get(i).trim();
+            for (String t : tracks) {
+                if (t.equals(track)) {
+                    dangerTracks.add(track);
+                    finalVal = true;
+                }
             }
         }
-        return false;
+        return finalVal;
     }
     /**
      * Method to set Up HTTP POST Request

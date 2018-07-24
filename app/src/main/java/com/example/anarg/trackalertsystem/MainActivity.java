@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.cunoraz.gifview.library.GifView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * This class controls the main activity of the app.
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
     private PostRequest asyncPost;
     //Stores the track name value entered by the user
     private String value;
+    private ArrayList<String> trackValues;
     //Boolean variables which keeps track of media pause/play and connection error
     private boolean pause,error;
     //Stores the time for which error is shown in milliseconds
@@ -70,11 +72,14 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         gifView= findViewById(R.id.gif1);
         gifView.setGifResource(R.drawable.siren);
         Intent i= getIntent();
-        value=i.getStringExtra("value");
+        value=i.getStringExtra("value").trim();
+        String a[]=value.split(",");
+        trackValues=new ArrayList<>(Arrays.asList(a));
+        Log.d("TrackValue", trackValues.toString());
         mediaPlayer=MediaPlayer.create(this,R.raw.music);
         mediaPlayer.setLooping(true);
         threadControl=new ThreadControl();
-        asyncPost=new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,this);
+        asyncPost=new PostRequest(trackValues,mediaPlayer,gifView,pause,textView,threadControl,this);
         asyncPost.execute(tmsURL);
     }
 
@@ -147,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements AsyncResponse{
         @Override
         public void run() {
             if (asyncPost.getStatus()== AsyncTask.Status.FINISHED) {
-                asyncPost= new PostRequest(value,mediaPlayer,gifView,pause,textView,threadControl,MainActivity.this);
+                asyncPost= new PostRequest(trackValues,mediaPlayer,gifView,pause,textView,threadControl,MainActivity.this);
                 asyncPost.execute(tmsURL);
                 isRunning=true;
             }
