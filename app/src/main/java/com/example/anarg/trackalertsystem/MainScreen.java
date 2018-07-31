@@ -10,6 +10,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -61,17 +62,34 @@ public class MainScreen extends AppCompatActivity {
      * OnClick listener for start button which starts the Main Activity of the app
      */
     public void start(View view) {
-        if (!textInputEditText.getText().toString().isEmpty()&&connectivityCheck()){
+        String input=textInputEditText.getText().toString();
+        if (input.charAt(input.length()-1)=='.'){
+            input=input.substring(0,input.length()-1);
+        }
+        Log.d("InputTest", input);
+        boolean output=inputCheck(input);
+        if (!input.isEmpty()&&connectivityCheck()&&output){
             Intent i= new Intent(this,MainActivity.class);
-            i.putExtra("value",textInputEditText.getText().toString());
+            i.putExtra("value",input);
             startActivity(i);
         }
         else if (textInputEditText.getText().toString().isEmpty()){
-            TextInputEditText editText=findViewById(R.id.text);
-            editText.setError("Enter a valid Track Name");
+            textInputEditText.setError("Enter a valid Track Name!");
+        }else if (!output){
+            textInputEditText.setError("Enter , to separate multiple Track Names!");
         }
         else if (!connectivityCheck()){
             exceptionRaised("Connectivity Error","Enable mobile data or WiFi to use this app.");
+        }
+    }
+    private boolean inputCheck(String input){
+        if (input.split(",").length>1){
+            return true;
+        }else if (input.split(".").length>1||input.split(" ").length>1
+                ||input.split(";").length>1){
+            return false;
+        }else{
+            return true;
         }
     }
     /**

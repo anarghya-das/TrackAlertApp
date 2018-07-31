@@ -6,9 +6,11 @@ import org.junit.Test;
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -20,6 +22,12 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     private static final String tmsURL = "http://tms.affineit.com:4445/SignalAhead/Json/SignalAhead";
 
+    @Test
+    public void splitTest(){
+        String s="sdsdsdsd,asdasdsd";
+        String[] a=s.split(" ");
+        System.out.println(Arrays.toString(a));
+    }
     @Test
     public void BackEndTest() throws JSONException {
         BackEnd b=new BackEnd();
