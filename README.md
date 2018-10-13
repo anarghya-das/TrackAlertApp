@@ -119,6 +119,6 @@ The gangmen are allotted their track names beforehand. When the app starts, the 
 *Figure 5: Screenshot of Main Screen*<br>
 
 The next screen of the app shows the alert screen. If there is a train incoming on the track(s) entered by the gangman, then the screen will display the track names on which the train is coming along with a flashing siren image and a siren noise will start playing in the background (*Figure 6*).  Otherwise, if there is no train incoming on the track entered by the gangman, then the screen will display a normal text message (*Figure 7*). The siren audio can be muted and the alert screen can be stopped using the end button.                                          
-![figure 6](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig6.jpg)  | ![figure 7](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig7.jpg)
-:-------------------------:|:-------------------------:
+![figure 6](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig6.jpg)  
+![figure 7](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig7.jpg)
 *Figure 6: Application State when Train Incoming*|*Figure 7: Application State when no Train Incoming*
