@@ -67,3 +67,17 @@ The app which is primarily designed for gangmen working on the tracks uses an ex
 }]                                     
 ```
 *Figure 2: Sample TMS Server JSON data* <br>
+
+The text shown in Figure 2 is a sample JSON data sent by the TMS server. Direction, Track Name, Train ID, Train Name, Train Number, Track Name are the information extracted from the JSON data provided by the TMS Server. Train objects are created using this information.
+
+<b>Mobile Application: </b> Sends and receives the HTTP Requests and performs all the processes necessary for the working of the application.
+
+#Use Case Diagram
+
+**Gangman**: The primary actor of the Use Case diagram who interacts with the Main Screen and Alert View of the app. The app was primarily designed for the primary actor, Gangman. 
+
+**TMS**: The secondary actor of the Use Case diagram which provides the app with the train data from which the required information is fetched from the app.
+
+**Main Screen**: The first module with which the primary actor (gangman) interacts with as soon as the app is opened. The main screen has an “include” relationship with **Connectivity Check** which means that every time Main Screen module starts the connectivity check for the internet connection is bound to happen. The main screen also has an “extend” relationship with **Display Error** which means that it will not be shown every time the Main Screen module starts but only under certain conditions (when connectivity check fails). 
+
+**Alert View**: The second module with which the primary actor (gangman) can interact after the main screen module. It has an “include” relationship with **Train Data** which means that every time this module starts the app will fetch the train data from the TMS server automatically. It also has an “extend” relationship with **Connection Lost Error** which means that it will not be shown every time this module starts but only under certain conditions (when an internet connection is lost). 
