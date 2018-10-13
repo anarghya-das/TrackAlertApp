@@ -115,7 +115,7 @@ This project also has two dependencies namely a JSON library which is used to pa
 
 The gangmen are allotted their track names beforehand. When the app starts, the gangman is greeted with a welcome screen where the gangman is required to input the track name or multiple track names. As soon as the track name(s) are entered the gangman can click on start to proceed to the next screen of the app. Figure 5 shows the state of the Main Screen after the gangman has entered the track name.
 
-![figure 5](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig5.png)<br>
+![figure 5](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig5.jpg)<br>
 *Figure 5: Screenshot of Main Screen*<br>
 
 The next screen of the app shows the alert screen. If there is a train incoming on the track(s) entered by the gangman, then the screen will display the track names on which the train is coming along with a flashing siren image and a siren noise will start playing in the background (*Figure 6*).  Otherwise, if there is no train incoming on the track entered by the gangman, then the screen will display a normal text message (*Figure 7*). The siren audio can be muted and the alert screen can be stopped using the end button.                                          
