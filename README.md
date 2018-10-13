@@ -135,3 +135,27 @@ If the internet connection is lost or there is a server error while the app is r
 :-------------------------:|:-------------------------:
 *Figure 9: Connection Error Dialog*|*Figure 10: Failed to Reconnect Dialog*
 
+# Testing
+
+The app has been tested for incorrect inputs and during slow network conditions. All the exceptions are handled and proper user dialog is provided based on each dialog. As of now, the app has been tested in the following conditions:
+
+|INPUT|	OUTPUT|
+|-----|-------|
+|The app started with no Wifi or network connection | Dialog box displayed which tells the user to turn on the Wifi or network connection in order to use the app.|
+|Pressing the start button without any track name entered in the Main Screen | Displays an appropriate error message for empty input|
+|Pressing the start button with valid inputs in the Main Screen | App switches to the Main Activity and starts all the described processes|
+|Network connection turned off while the app is running|Displays a network connectivity lost dialog and then tries to reconnect for one minute and if it still fails it gives the user an option to exit or restart the app|
+|Mute Button|On click, button mutes the siren audio |
+
+The app is compatible in devices with Android SDK versions 16 and above (Android 4.1 aka Jelly Bean). The app has been tested both in the lowest SDK- Jelly Bean and the latest SDK- Android P and no problems were encountered. This shows that the app should be compatible with virtually any Android device in the market.
+The app has also been tested under various network speeds, details of which are mentioned below: <br>
+
+|Network|	Loading Time| 
+|-------|--------------------|
+|3G	|2.042 milliseconds|
+|4G| 	1.818 milliseconds | 	
+
+# Conclusion 
+
+Over the past few years, there have been frequent accidents related to the gangmen and there have been many lives lost. All this time there has not been any particular technology dedicated to the railway gangmen to alert them about the incoming danger. This is why this app aims to eliminate this ongoing danger to the lives for gangmen by alerting them ahead of time and giving them a chance to save their life. This idea isn’t completely flawless yet as it hasn’t been tested in the real world scenario and it might stop working if there is a network or a server failure. But this is the only technology developed as of now for the gangmen specifically which makes it a unique 
+solution to this deadly problem. 
