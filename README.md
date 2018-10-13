@@ -21,4 +21,48 @@ The app which is primarily designed for gangmen working on the tracks uses an ex
 
 ![figure 1](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig1.png)<br>
 *Figure 1: Basic Architecture Diagram*
-
+<b>TMS Server</b>: The main server on which the mobile application works. It is responsible to provide the train information in the form of JSON. The server updates the JSON data about every 5-10 millisecond. 
+```JSON
+[{
+	"direction":"String content",
+	"location":"String content",
+	"locoNo":"String content",
+	"trackId":2147483647,
+	"trackName":"String content",
+	"trainId":9223372036854775807,
+	"trainName":"String content",
+	"trainNo":2147483647,
+	"updatedAt":"String content",
+	"zSignals":[{
+		"distance":1.26743233E+15,
+		"index":2147483647,
+		"station":"String content",
+		"trackName":"String content",
+		"ztoAspectSignal":{
+			"objectName":"String content",
+			"objectType":"String content",
+			"relays":[{
+				"channelDescription":"String content",
+				"currentStatus":"String content"
+			}]
+		},
+		"ztoCallingOnSignal":{
+			"objectName":"String content",
+			"objectType":"String content",
+			"relays":[{
+				"channelDescription":"String content",
+				"currentStatus":"String content"
+			}]
+		},
+		"ztoShuntSignal":{
+			"objectName":"String content",
+			"objectType":"String content",
+			"relays":[{
+				"channelDescription":"String content",
+				"currentStatus":"String content"
+			}]
+		}
+	}]
+}]                                     
+```
+*Figure 2: Sample TMS Server JSON data* <br>
