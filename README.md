@@ -19,5 +19,6 @@ The app which is primarily designed for gangmen working on the tracks uses an ex
 
 # Basic Architecture
 
-
+![alt text](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/f1.png)<br>
+*Figure 1: Basic Architecture Diagram*
 
