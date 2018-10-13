@@ -11,3 +11,10 @@ This was the only technology mentioned to help with the major safety issue relat
 Gangman Alert is a new idea which focuses on removing the shortcomings of the existing technology. An app was the best fit to use for this problem as everyone carries a smartphone these days making the cost of implementation virtually nothing. Also, in the past android apps have helped deal with various difficult situations such as safety of women (“7 Best Women Safety”). Nowadays mobile apps are used to solve all kinds of problems like for transportation apps like OLA, Uber are household names. Ordering food online can be done efficiently too using apps like Food Panda and Swiggy. Mobile applications are a global phenomenon and people are developing new mobile apps constantly to solve every small or big problem around them efficiently (Adeleye, 2016). Every gangman working on the tracks will have this app which will alert them to the incoming trains on the track they are working on. 
 
 The app which is primarily designed for gangmen working on the tracks uses an existing service called the TMS service which provides data about the trains and the track names on which the trains are running. This app will help the gangmen as it will alert them while they are working if any train is coming on their track or not. 
+
+# Objectives 
+
+1.	Alert the gangman about the trains coming on the tracks they are working on.
+2.	No implementation cost as everyone owns a smartphone these days
+
+
