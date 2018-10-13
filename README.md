@@ -17,4 +17,7 @@ The app which is primarily designed for gangmen working on the tracks uses an ex
 1.	Alert the gangman about the trains coming on the tracks they are working on.
 2.	No implementation cost as everyone owns a smartphone these days
 
+# Basic Architecture
+
+
 
