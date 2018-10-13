@@ -84,3 +84,16 @@ The text shown in Figure 2 is a sample JSON data sent by the TMS server. Directi
 
 ![figure 3](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig3.png)<br>
 *Figure 3: Use Case Diagram*
+
+# Mobile Application Design
+
+The app design was divided into two modules: MainScreenActivity where the gangman enters the name of the track he is currently working on and MainActivity where the alert notification is displayed if a train is approaching the track on which the gangman is working. 
+
+![figure 4](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig4.png)<br>
+*Figure 4: Mobile Application Diagram<br>
+
+1.	**Background Process**: This is a process which takes place in the background while the app is running. There are three main jobs that this process handles:<br>
+a.	To create HTTP connections to the server and receive the response from the server. <br>
+b.	To update the UI accordingly after it has received a response from the server. <br>
+c.	To check the network connectivity of the application.<br>
+This mobile application uses the HTTP POST method to connect to the TMS Server. In this type of connection, data is usually required to be sent to the server and then a response is received accordingly. It also uses HTTP GET method to connect to the database server. In this type of connection, data is not required to be sent to the server and response if received accordingly.
