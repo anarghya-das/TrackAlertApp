@@ -21,6 +21,7 @@ The app which is primarily designed for gangmen working on the tracks uses an ex
 
 ![figure 1](https://github.com/anarghya-das/TrackAlertApp/blob/master/Images/fig1.png)<br>
 *Figure 1: Basic Architecture Diagram*<br>
+
 <b>TMS Server</b>: The main server on which the mobile application works. It is responsible to provide the train information in the form of JSON. The server updates the JSON data about every 5-10 millisecond. 
 ```JSON
 [{
